@@ -1,0 +1,64 @@
+include table cia {
+    Name        : string
+,   Region      : string
+,   Fläche      : double
+,   Einwohner   : int
+,   BIP         : int?
+}
+;;
+
+-- A1
+
+cia
+;;
+
+-- A2
+cia.Name
+;;
+
+-- A3 (I)
+cia
+.filter(\x -> x.Einwohner > 100E6)
+.Name
+;;
+
+-- A3 (II)
+
+let pred = \x -> x.Einwohner > 100E6 in
+
+cia
+.filter(pred)
+.Name
+;;
+
+-- A4
+cia
+.filter(\x -> x.BIP > 1 /\ x.BIP < 100E9 /\ x.Region = "Asien")
+;;
+
+-- A5
+cia
+.filter(\x -> x.Name in ["Frankreich", "Deutschland", "Polen"])
+.Einwohner
+;;
+-- A6
+cia
+.filter(\x -> x.Region = "Südamerika")
+.{Name, Einwohner % (\x -> x / 100E6)}
+;;
+
+-- A7
+cia
+.filter(\x -> x.Einwohner > 200e6)
+.map(\x -> {Name: x.Name, "BIP/Einwohner": x.BIP / x.Einwohner})
+;;
+
+-- A8
+cia
+.filter(\x -> x.Einwohner > 200e6)
+.map(\x -> {Name: x.Name, "BIP/Einwohner": x.BIP / x.Einwohner})
+.sortByDesc(\x -> x."BIP/Einwohner")
+
+-- A9
+cia
+.filter(\x -> x.BIP = null)
