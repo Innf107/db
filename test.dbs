@@ -62,3 +62,34 @@ cia
 -- A9
 cia
 .filter(\x -> x.BIP = null)
+
+
+-- Lektion 3:
+
+-- A3:
+Bestellung
+.filter(\x -> x.BestellNr = 10266)
+.VersandFirma
+.Name
+
+
+-- A10:
+-- SELECT K.Firma
+-- FROM Lieferant L, Artikel A, Bestelldetails BD, Bestellung B, Kunde K
+-- WHERE L.LieferantenNr = A.LieferantenNr
+-- AND A.ArtikelNr = BD.ArtikelNr
+-- AND BD.BestellNr = B.BestellNr
+-- AND B.KundenCode = K.KundenCode
+-- AND L.Firma = 'Escargots Nouveaux' 
+-- 
+-- select K.Firma
+-- from Bestelldetails BD
+-- join Bestellung B on BD.BestellNr = B.BestellNr
+-- join Kunde K on K.KundenCode = B.KundenCode
+-- join Artikel A on A.ArtikelNr = BD.ArtikelNr
+-- join Lieferant L on L.LieferantenNr = A.LieferantenNr
+-- where L.Firma = 'Escargots Nouveaux'
+
+Bestelldetails
+.filter(Bestellung.Artikel.Lieferant.Firma = "Escargots Nouveaux")
+.Bestellung.Kunde.Firma
